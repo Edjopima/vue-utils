@@ -1,0 +1,21 @@
+{
+  "name": "vue_utils",
+  "version": "1.0.0",
+  "description": "Utils librarie",
+  "main": "dist/index.js",
+  "bin": {
+    "vutil": "./dist/index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "esbuild ./index.ts --platform=node --bundle --minify --sourcemap --target=es2015 --outfile=dist/index.js"
+  },
+  "author": "Eduardo Piña <mrejpm@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.4.4"
+  },
+  "dependencies": {
+    "esbuild": "^0.18.16"
+  }
+}
