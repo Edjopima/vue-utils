@@ -1,6 +1,7 @@
 #! /usr/bin/env node
 
 import { BuildModule } from "./modules/ModuleBuilder/ModuleBuilder";
+import { buildVue3Component } from "./modules/Vue3ComponentBuilder/Vue3ComponentBuilder";
 import { buildComponent } from "./modules/VueComponentBuilder/VueComponentBuilder";
 
 const args = process.argv.slice(2);
@@ -8,16 +9,7 @@ const command = args[0];
 const name = args[1];
 const path = args[2];
 
-if (command === 'module' || command === '-m') {
-  BuildModule(name, path);
-}
-
-if (command === 'component' || command === '-c') {
-  buildComponent(name, path);
-}
-
-// create help command, and add it to the list of commands, print in the console the way of use of the commands
-if (command === 'help' || command === '-h') {
+const printHelp = () => {
   console.log(`
   Commands:
   -m or module: create a module
@@ -26,4 +18,30 @@ if (command === 'help' || command === '-h') {
     example: vutil -c componentName path
   -h or help: show this message
   `)
+}
+
+const validCommands = ['module', '-m', 'component', '-c', 'component-3', '-c3', 'help', '-h'];
+
+if (!validCommands.includes(command)) {
+  console.log(`Invalid Command: ${command} \nUse -h or help to see the list of commands.`);
+  process.exit(1);
+}
+
+const functions = {
+  module: BuildModule,
+  '-m': BuildModule,
+  component: buildComponent,
+  '-c': buildComponent,
+  'component-3': buildVue3Component,
+  '-c3': buildVue3Component,
+  help: printHelp,
+
+}
+
+const func = functions[command];
+
+if (func) {
+  func(name, path);
+} else {
+  printHelp();
 }
